@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:util="http://www.springframework.org/schema/util"
+    
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd    
+    http://www.springframework.org/schema/jdbc 
+    http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd 
+    http://www.springframework.org/schema/tx    
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd   
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+    http://www.springframework.org/schema/mvc   
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-4.0.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+    
+    
+    <!-- 对于注解的handler可以单个配置 -->
+    <!-- <bean class="com.garen.ssm.controller.ItemsController3"></bean> -->
+    <!-- 可以使用扫描，加载controller， service。。。
+    	 这里让扫描controller，指定controller的包
+     -->
+    <context:component-scan base-package="com.garen.ssm.controller"></context:component-scan>
+    
+
+    <!-- 注解映射器 -->
+    <!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean> -->
+    <!-- 注解适配器 -->
+    <!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean> -->
+    
+    <!-- 使用mvc:annotation-driven代替上边注解映射器和注解适配器的配置 
+    	 mvc:annotation-driven默认加载很多的参数绑定方法，
+    	 比如json转换解析器就默认加载了，如果使用了mvc:annotation-driven就无需配置上面的映射器和适配器了
+    	实际开发中使用mvc:annotation-driven
+    -->
+    <mvc:annotation-driven></mvc:annotation-driven>
+    
+  
+    <!-- 视图解析器 
+    	解析jsp视图，默认使用jstl标签，classpath下必须得有jstl的包
+    -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+    	<property name="prefix" value="/WEB-INF/jsp/" />
+    	<property name="suffix" value=".jsp" />
+    </bean>
+ </beans>
