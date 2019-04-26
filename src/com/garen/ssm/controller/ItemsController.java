@@ -2,9 +2,13 @@ package com.garen.ssm.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.garen.ssm.po.ItemsCustom;
@@ -16,20 +20,23 @@ import com.garen.ssm.service.ItemsService;
  *
  */
 @Controller
+@RequestMapping("/items")
 public class ItemsController {
 	
 	@Autowired
-	private ItemsService ItemsService;
+	private ItemsService itemsService;
 	
 	// 商品查询列表
 	// @RequestMapping注解实现了方法与url的映射关系，一个方法对应一个url
 	// 一般建议将url和方法名写成一样
 	@RequestMapping("/queryItems")
-	public ModelAndView queryItems() throws Exception {
+	public ModelAndView queryItems(HttpServletRequest request) throws Exception {
 		
+		// 测试forward转发，request对象共享
+		System.out.println(request.getParameter("id"));
 		
 		// 调用service查找数据库，查询商品列表
-		List<ItemsCustom> list = ItemsService.findItemsList(null);
+		List<ItemsCustom> list = itemsService.findItemsList(null);
 
 		// 返回ModelAndView
 		ModelAndView mav = new ModelAndView();
@@ -40,5 +47,52 @@ public class ItemsController {
 
 		return mav;
 	}
+	
+//	// 商品信息修改页面显示
+//	@RequestMapping(value="/editItems", method={RequestMethod.POST, RequestMethod.GET})
+//	public ModelAndView editItems() throws Exception {
+//		
+//		// 调用Service根据商品id查询商品信息
+//		ItemsCustom itemsCustom = itemsService.findItemsById(1);
+//		
+//		// 返回ModelAndView
+//		ModelAndView mvn = new ModelAndView();
+//		
+//		// 将商品信息方到model中
+//		mvn.addObject("itemsCustom", itemsCustom);
+//		
+//		// 商品修改页面
+//		mvn.setViewName("items/editItems");
+//		
+//		return mvn;
+//	}
+	
+	// 商品信息修改页面显示
+	@RequestMapping(value="/editItems", method={RequestMethod.POST, RequestMethod.GET})
+	public String editItems(Model model) throws Exception {
+		
+		// 调用Service根据商品id查询商品信息
+		ItemsCustom itemsCustom = itemsService.findItemsById(1);
+				
+		// 通过形参中的model，将model数据传到页面， 相当于mvn.addObject()方法
+		model.addAttribute("itemsCustom", itemsCustom);
+		
+		return "items/editItems";
+	}
+	
+	// 商品信息修改提交
+	@RequestMapping("/editItemsSubmit")
+	public String editItemsSubmit(HttpServletRequest request) throws Exception {
+		
+		// 重定向到商品列表
+//		return "redirect:queryItems.action";
+		
+		// 页面转发
+		return "forward:queryItems.action";
+//		return "success";
+	}
+	
+
+	
 	
 }
