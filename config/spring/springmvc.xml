@@ -45,7 +45,7 @@
     	 比如json转换解析器就默认加载了，如果使用了mvc:annotation-driven就无需配置上面的映射器和适配器了
     	实际开发中使用mvc:annotation-driven
     -->
-    <mvc:annotation-driven></mvc:annotation-driven>
+    <mvc:annotation-driven conversion-service="conversionService" ></mvc:annotation-driven>
     
   
     <!-- 视图解析器 
@@ -54,5 +54,16 @@
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
     	<property name="prefix" value="/WEB-INF/jsp/" />
     	<property name="suffix" value=".jsp" />
+    </bean>
+    
+    <!-- 自定义参数绑定  -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+    	<!-- 自定义的转换器 -->
+    	<property name="converters">
+    		<list>
+    			<!-- 日期类型的转换器 -->
+    			<bean class="com.garen.ssm.controller.converter.CustomDateConverter"></bean>
+    		</list>
+    	</property>
     </bean>
  </beans>

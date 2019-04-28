@@ -250,14 +250,32 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.garen.ssm.po.Items" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.garen.ssm.po.ItemsQueryVo" >
     update items
-    set name = #{name,jdbcType=VARCHAR},
-      price = #{price,jdbcType=REAL},
-      pic = #{pic,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      detail = #{detail,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    <set>
+    	<if test="itemsCustom!=null">
+    		<if test="itemsCustom.name != null and itemsCustom.name != ''">
+    			name = #{itemsCustom.name, jdbcType=VARCHAR},
+    		</if>
+    		
+    		<if test="itemsCustom.price != null and itemsCustom.price != ''">
+    			price = #{itemsCustom.price, jdbcType=REAL},
+    		</if>
+    		
+    		<if test="itemsCustom.pic != null and itemsCustom.pic != ''">
+    			pic = #{itemsCustom.pic, jdbcType=VARCHAR},
+    		</if>
+    		
+    		<if test="itemsCustom.createtime != null and itemsCustom.createtime != ''">
+    			createtime = #{itemsCustom.createtime, jdbcType=TIMESTAMP},
+    		</if>
+    		
+    		<if test="itemsCustom.detail != null and itemsCustom.detail != ''">
+    			detail = #{itemsCustom.detail, jdbcType=LONGVARCHAR},
+    		</if>
+    	</if>
+    </set>
+    where id = #{itemsCustom.id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.garen.ssm.po.Items" >
     update items

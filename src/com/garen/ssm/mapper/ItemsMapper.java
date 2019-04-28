@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.garen.ssm.po.Items;
 import com.garen.ssm.po.ItemsExample;
+import com.garen.ssm.po.ItemsQueryVo;
 
 public interface ItemsMapper {
     int countByExample(ItemsExample example);
@@ -32,7 +33,7 @@ public interface ItemsMapper {
 
     int updateByPrimaryKeySelective(Items record);
 
-    int updateByPrimaryKeyWithBLOBs(Items record);
+    int updateByPrimaryKeyWithBLOBs(ItemsQueryVo itemsQueryVo);
 
     int updateByPrimaryKey(Items record);
 }

@@ -1,5 +1,6 @@
 package com.garen.ssm.po;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Items {
@@ -11,7 +12,7 @@ public class Items {
 
     private String pic;
 
-    private Date createtime;
+    private Timestamp createtime;
 
     private String detail;
 
@@ -47,19 +48,29 @@ public class Items {
         this.pic = pic == null ? null : pic.trim();
     }
 
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
+//    public Date getCreatetime() {
+//        return createtime;
+//    }
+//
+//    public void setCreatetime(Date createtime) {
+//        this.createtime = createtime;
+//    }
+    
+    
 
     public String getDetail() {
         return detail;
     }
 
-    public void setDetail(String detail) {
+    public Timestamp getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(Timestamp createtime) {
+		this.createtime = createtime;
+	}
+
+	public void setDetail(String detail) {
         this.detail = detail == null ? null : detail.trim();
     }
 }
