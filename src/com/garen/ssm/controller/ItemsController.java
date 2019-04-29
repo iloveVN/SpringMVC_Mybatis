@@ -7,11 +7,16 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.garen.ssm.controller.validation.ValidGroup1;
 import com.garen.ssm.po.ItemsCustom;
 import com.garen.ssm.po.ItemsQueryVo;
 import com.garen.ssm.service.ItemsService;
@@ -85,10 +90,29 @@ public class ItemsController {
 	}
 	
 	// 商品信息修改提交
+	// 在需要校验的pojo前面需要添加@Validated， 在需要校验的pojo后面添加BindingResult接收校验出错信息
+	// 注意：@Validated和BindingResult是成对出现的，并且参数循序固定()
+	// 指定@Validated(value={ValidGroup1.class})使用ValidGroup1分组的校验
 	@RequestMapping("/editItemsSubmit")
-	public String editItemsSubmit(HttpServletRequest request,String name, @RequestParam(value="itemsCustom.id", required=true, defaultValue="1") Integer id, ItemsQueryVo itemsQueryVo) throws Exception {
+	public String editItemsSubmit(Model model, HttpServletRequest request,String name,Integer id, 
+				@Validated({ValidGroup1.class}) ItemsCustom itemsCustom, BindingResult bindingResult) throws Exception {
 		
-		itemsService.updateItems(id, itemsQueryVo);
+		// 获取校验的错误信息
+		if(bindingResult.hasErrors()){
+			// 输出错误信息
+			List<ObjectError> allErrors = bindingResult.getAllErrors();
+			
+			for(ObjectError objectError : allErrors) {
+				// 输出错误信息
+				System.out.println(objectError.getDefaultMessage());
+			}
+			// 将错误信息传到页面
+			model.addAttribute("allErrors", allErrors);
+			
+			return "items/editItems";
+		}
+		
+		itemsService.updateItems(id, itemsCustom);
 		
 		// 重定向到商品列表
 		return "redirect:queryItems.action";
@@ -100,7 +124,62 @@ public class ItemsController {
 //		return "success";
 	}
 	
+	
+	/**
+	 * 
+	 * <p> Title : deleteItems </p>
+	 * <p> Description : 批量删除商品信息,该功能主要实现的是参数数组的绑定 </p>
+	 * CreateDate : 2019年4月29日 上午10:14:55
+	 * Author : 0283000196
+	 * @param @param items_id
+	 * @param @return
+	 * @param @throws Exception
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("/deleteItems")
+	public String deleteItems(Integer[] items_id) throws Exception{
+		
+		// 调用service批量删除商品
+		
+		return null;
+	}
+	
+	
+	
+	@RequestMapping("/editItemsQuery")
+	public ModelAndView editItemsQuer(HttpServletRequest request, ItemsQueryVo itemsQueryVo) throws Exception {
+		
+		// 调用service查找数据库，查询商品列表
+		List<ItemsCustom> list = itemsService.findItemsList(itemsQueryVo);
 
+		// 返回ModelAndView
+		ModelAndView mav = new ModelAndView();
+		// 在jsp页面中通过itemslist获取数据
+		mav.addObject("itemslist", list);
+		// 指定试图
+		mav.setViewName("items/editItemsQuery");
+
+		return mav;
+	} 
+	
+	/**
+	 * 
+	 * <p> Title : editItemsAllSubmit </p>
+	 * <p> Description : 批量修改商品信息，该功能主要实现的是接收list数据，通过包装类来接收 </p>
+	 * CreateDate : 2019年4月29日 上午10:37:45
+	 * Author : 0283000196
+	 * @param @param itemsQueryVo
+	 * @param @return 逻辑视图名
+	 * @param @throws Exception
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("/editItemsAllSubmit")
+	public String editItemsAllSubmit(ItemsQueryVo itemsQueryVo) throws Exception{
+	
+		return "success";
+	}
 	
 	
 }

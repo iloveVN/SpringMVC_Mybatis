@@ -10,23 +10,29 @@
 <title>修改商品列表</title>
 </head>
 <body>
+<!-- 显示错误信息  -->
+<c:if test="${allErrors!=null}">
+	<c:forEach items="${allErrors}" var="error">
+		 ${error.defaultMessage}
+	</c:forEach>
+</c:if>
 <form id="itemForm" action="${pageContext.request.contextPath}/items/editItemsSubmit.action" method="post">
 	<input type="hidden" name="itemsCustom.id" value="${itemsCustom.id}" />
 	修改商品信息:
 	<table width="100%" border=1>
 		<tr>
 			<td>商品名称</td>
-			<td> <input type="text" name="itemsCustom.name" value="${itemsCustom.name}"/> </td>
+			<td> <input type="text" name="name" value="${itemsCustom.name}"/> </td>
 		</tr>
 		
 		<tr>
 			<td>商品价格</td>
-			<td> <input type="text" name="itemsCustom.price" value="${itemsCustom.price}"/> </td>
+			<td> <input type="text" name="price" value="${itemsCustom.price}"/> </td>
 		</tr>
 		
 		<tr>
 			<td>生产日期</td>
-			<td> <input type="text" name="itemsCustom.createtime" value="<fmt:formatDate value="${itemsCustom.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/>"/> </td>
+			<td> <input type="text" name="createtime" value="<fmt:formatDate value="${itemsCustom.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/>"/> </td>
 		</tr>
 		
 <%-- 		<tr>
@@ -43,7 +49,7 @@
 		<tr>
 			<td>商品简介</td>
 			<td> 
-				<textarea rows="3" cols="30" name="itemsCustom.detail">${itemsCustom.detail }</textarea>
+				<textarea rows="3" cols="30" name="detail">${itemsCustom.detail }</textarea>
 			</td>
 		</tr>
 		

@@ -33,7 +33,7 @@ public interface ItemsMapper {
 
     int updateByPrimaryKeySelective(Items record);
 
-    int updateByPrimaryKeyWithBLOBs(ItemsQueryVo itemsQueryVo);
+    int updateByPrimaryKeyWithBLOBs(Items items);
 
     int updateByPrimaryKey(Items record);
 }

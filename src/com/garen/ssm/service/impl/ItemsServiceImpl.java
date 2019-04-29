@@ -44,15 +44,15 @@ public class ItemsServiceImpl implements ItemsService{
 	}
 
 	@Override
-	public void updateItems(Integer id, ItemsQueryVo itemsQueryVo) throws Exception {
+	public void updateItems(Integer id, ItemsCustom itemsCustom) throws Exception {
 		
 		// 添加业务校验，通常在service接口对关键参数进行校验
 		// 验证id是否为空，如果为空则抛出异常
 		
 		// 更新商品信息使用updateByPrimaryKeyWithBLOBs根据id更新items表中的所有字段，包括大文本类型字段
 		// updateByPrimaryKeyWithBLOBs要求必须传入id
-		itemsQueryVo.getItemsCustom().setId(id);
-		itemsMapper.updateByPrimaryKeyWithBLOBs(itemsQueryVo);
+		itemsCustom.setId(id);
+		itemsMapper.updateByPrimaryKeyWithBLOBs(itemsCustom);
 		
 	}
 
