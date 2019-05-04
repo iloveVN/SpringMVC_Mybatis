@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -95,7 +96,7 @@ public class ItemsController {
 	// 指定@Validated(value={ValidGroup1.class})使用ValidGroup1分组的校验
 	@RequestMapping("/editItemsSubmit")
 	public String editItemsSubmit(Model model, HttpServletRequest request,String name,Integer id, 
-				@Validated({ValidGroup1.class}) ItemsCustom itemsCustom, BindingResult bindingResult) throws Exception {
+				@ModelAttribute("itemsCustom") @Validated({ValidGroup1.class}) ItemsCustom itemsCustom, BindingResult bindingResult) throws Exception {
 		
 		// 获取校验的错误信息
 		if(bindingResult.hasErrors()){

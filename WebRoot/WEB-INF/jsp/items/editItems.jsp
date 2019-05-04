@@ -16,7 +16,7 @@
 		 ${error.defaultMessage}
 	</c:forEach>
 </c:if>
-<form id="itemForm" action="${pageContext.request.contextPath}/items/editItemsSubmit.action" method="post">
+<form id="itemForm" action="${pageContext.request.contextPath}/items/editItemsSubmit.action" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="itemsCustom.id" value="${itemsCustom.id}" />
 	修改商品信息:
 	<table width="100%" border=1>
